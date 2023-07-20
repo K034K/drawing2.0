@@ -1,5 +1,4 @@
 import { createRoot } from 'react-dom/client'
-
 import App from './App.jsx'
 
 window.addEventListener('selectstart', (event) => { 
@@ -10,6 +9,5 @@ window.addEventListener('selectstart', (event) => {
 const root = createRoot(document.getElementById('root'));
 
 root.render(
-    new App()
-
+    <App />
 );
