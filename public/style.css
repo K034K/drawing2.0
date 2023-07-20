@@ -7,6 +7,72 @@
 }
 
 .square{
-    display: inline-block;
-    padding: 5px;
+    background-color: darkslategrey;
+    display: grid;
 }
+
+/* on hover make lighter than current or deacrease opacity and increase in size slightly it need to be */
+.square:hover{
+    transition: 0.1s;
+}
+/* grid elements*/
+.grid{
+display: grid;
+height: 100vh;
+justify-content: center;
+align-items: center;
+}
+
+.colorPicker{
+    position: absolute;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    width: 90px;
+    height: 90px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.colorPicker > div{
+    width: 90%;
+    height: 90%;
+    padding: 10%;
+    
+    cursor: pointer;
+}
+
+.form{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr;
+    padding: 5px;
+    
+}
+
+.form >{
+    
+    padding: 5px;
+    font-size: 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+
+}
+.app{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: darkslategrey;
+}
+
+.buttonRow{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 15px;
+}
+
+
