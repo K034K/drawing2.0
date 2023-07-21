@@ -221,7 +221,7 @@ const Form = ({ setWidth, setHeight, setShowForm }) => {
             <div className="window-body">
                 <form onSubmit={handleSubmit} className="form">
                     <div className="field-row-stacked">
-                        <label htmlFor="width">Width</label>
+                        <label htmlFor="width" >Width</label>
                         <input type="number" name="width" id="width" className="input-number" onChange={checkInput} />
                     </div>
                     <div className="field-row-stacked">
