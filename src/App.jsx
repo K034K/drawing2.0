@@ -180,7 +180,7 @@ const Form = ({ setWidth, setHeight, setShowForm }) => {
         setLocalHeight(10);
         document.getElementById("width").value = 10;
         document.getElementById("height").value = 10;
-        document.getElementById("submit").disabled = false;
+        document.getElementById("submit").removeAttribute("disabled");
     };
 
     const checkInput = (e) => {
@@ -192,19 +192,19 @@ const Form = ({ setWidth, setHeight, setShowForm }) => {
         if (e.target.value < 1 || e.target.value > 100) {
             e.target.setCustomValidity("Please enter a number between 1 and 100");
             e.target.reportValidity();
-            document.getElementById("submit").disabled = true;
+            document.getElementById("submit").setAttribute("disabled");
         } else if (e.target.value % 1 !== 0) {
             e.target.setCustomValidity("Please enter an integer");
             e.target.reportValidity();
-            document.getElementById("submit").disabled = true;
+            document.getElementById("submit").setAttribute("disabled");
         } else if (isNaN(e.target.value)) {
             e.target.setCustomValidity("Please enter a number");
             e.target.reportValidity();
-            document.getElementById("submit").disabled = true;
+            document.getElementById("submit").setAttribute("disabled");
         } else {
             e.target.setCustomValidity("");
             e.target.reportValidity();
-            document.getElementById("submit").disabled = false;
+            document.getElementById("submit").removeAttribute("disabled");
         }
     };
 
@@ -229,7 +229,7 @@ const Form = ({ setWidth, setHeight, setShowForm }) => {
                         <input type="number" name="height" id="height" onChange={checkInput} />
                     </div>
                     <div className="buttonRow">
-                        <button type="submit" id="submit" disabled="true">
+                        <button type="submit" id="submit" disabled>
                             Submit
                         </button>
                         <button onClick={handleReset}>Reset</button>
