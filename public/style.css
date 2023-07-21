@@ -9,6 +9,8 @@
 .square{
     background-color: darkslategrey;
     display: grid;
+    width: 40px;
+    aspect-ratio: 1/1;
 }
 
 /* on hover make lighter than current or deacrease opacity and increase in size slightly it need to be */
@@ -18,7 +20,7 @@
 /* grid elements*/
 .grid{
 display: grid;
-height: 100vh;
+background-color: ;
 justify-content: center;
 align-items: center;
 }
