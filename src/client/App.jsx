@@ -10,7 +10,7 @@
 //create a function that will change the color of the square
 //create a function that will change the color of the square when clicked
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import ColorPicker from "./components/ColorPicker.jsx";
 import Form from "./components/Form.jsx";
@@ -23,6 +23,19 @@ export default function App(props) {
     const [width, setWidth] = useState(10);
     const [height, setHeight] = useState(10);
     const [showForm, setShowForm] = useState(true);
+    const [restore, setRestore] = useState(false);
+
+    //create grid in state for our items  ; save to local storrage width, height and grid
+
+    //on change store
+    useEffect(() => {
+        localStorage.setItem("width", JSON.stringify(width));
+        localStorage.setItem("height", JSON.stringify(height));
+    }, [width, height]);
+
+    useEffect(() => {
+        
+    }, []);
 
     const colors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "black", "white"];
     //on riht click show color picker and second hide it you can use esc key
@@ -34,20 +47,28 @@ export default function App(props) {
         setColorPickerPosition({ x: e.clientX, y: e.clientY });
     });
 
-    const colorPicker =<ColorPicker
-    colors={colors}
-    setActiveColor={setActiveColor}
-    showColorPicker={showColorPicker}
-    colorPickerPosition={colorPickerPosition}
-/>;
+    const colorPicker = (
+        <ColorPicker
+            colors={colors}
+            setActiveColor={setActiveColor}
+            showColorPicker={showColorPicker}
+            colorPickerPosition={colorPickerPosition}
+        />
+    );
     //if you click on the window of colorPicker don't hide it
     window.addEventListener("click", (e) => {
-        if (e.target === colorPicker) {
+        if (e.target.className === "colorPicker window") {
             setShowColorPicker(true);
         } else {
             setShowColorPicker(false);
         }
     });
+    if (restore) {
+        setWidth(JSON.parse(localStorage.getItem("width")));
+        setHeight(JSON.parse(localStorage.getItem("height")));
+        setShowForm(false);
+    }
+
     window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             setShowColorPicker(false);
@@ -57,7 +78,7 @@ export default function App(props) {
     return (
         <div className="app">
             {showForm ? (
-                <Form setWidth={setWidth} setHeight={setHeight} setShowForm={setShowForm} />
+                <Form setWidth={setWidth} setHeight={setHeight} setShowForm={setShowForm} setRestore={setRestore} />
             ) : (
                 <div className="gridContainer">
                     {colorPicker}

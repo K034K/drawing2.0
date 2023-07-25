@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import send from "../lib/send";
 
 //it's a form component that will have width and height inputs
 //and a submit button and reset button
@@ -10,21 +11,27 @@ import React, { useState } from "react";
 
 //create a form
 const Form = (props) => {
-    const { setWidth, setHeight, setShowForm } = props;
+    const { setWidth, setHeight, setShowForm ,setRestore} = props;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setWidth(document.getElementById("width").value);
-        setHeight(document.getElementById("height").value);
-        setShowForm(false);
+        const { width:{value: width}, height:{value: height}, username:{value: username}} = e.target;
+        console.log({ width, height, username });
+        send("/app/set", { width, height, username }).then((res) => { 
+            const { width, height } = res;
+            setWidth(width);
+            setHeight(height);
+            setShowForm(false);
+        });
     };
 
     const handleReset = (e) => {
         e.preventDefault();
         const widthInput = document.getElementById("width");
         const heightInput = document.getElementById("height");
-        //get window width and height and divide by 40 and make it integer
 
+
+        //get window width and height and divide by 40 and make it integer
         widthInput.value = Math.round(window.innerWidth / 40);
         heightInput.value = Math.round(window.innerHeight / 40);
 
@@ -84,12 +91,19 @@ const Form = (props) => {
                         <input type="number" name="height" id="height" onChange={checkInput} />
                     </div>
 
+                    <div className="field-row-stacked">
+                        <label htmlFor="username">Username</label>
+
+                        <input type="text" name="username" id="username" />
+                    </div>
+
                     <div className="buttonRow">
                         <button type="submit" id="submit" disabled>
                             Submit
                         </button>
 
                         <button onClick={handleReset}>Reset</button>
+                        <button onClick={()=>setRestore(true)}>Restore</button>
                     </div>
                 </form>
             </div>

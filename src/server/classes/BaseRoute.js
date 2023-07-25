@@ -9,20 +9,21 @@ export default class BaseRoute {
         this.next = next;
     }
 
-    mOk(...add) {
+    mOk(add) {
         this.res.json({ ok: true, ...add });
     }
 
-    mNotOk(...add) {
+    mNotOk(add) {
         this.res.json({ ok: false, ...add });
     }
 
-    e500(...add) {
+    e500(add) {
         this.res.status(500);
         this.mNotOk(...add);
     }
 
-    onRequest() {
+    onRequest({ db }) {
+        this.db = db;
         this.on();
     }
 }

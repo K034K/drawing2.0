@@ -3,7 +3,7 @@ import Square from "./Square.jsx";
 //create a grid of squares based on width and height
 const CreateGrid = (props) => {
     const { width, height, activeColor } = props;
-
+    
     const [isDragging, setIsDragging] = useState(false);
 
     const handleMouseDown = (e) => {
@@ -18,7 +18,7 @@ const CreateGrid = (props) => {
 
     const grid = [];
     for (let i = 0; i < height * width; i++) {
-        grid.push(<Square key={i} id={i} activeColor={activeColor} isDragging={isDragging} />);
+        grid.push(<Square key={i} id={i} activeColor={activeColor} isDragging={isDragging}/>);
     }
     const gridStyle = {
         gridTemplateColumns: `repeat(${width}, 1fr)`,
