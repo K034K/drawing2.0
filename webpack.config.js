@@ -25,7 +25,7 @@ const Client = {
         ],
     },
     resolve: {
-        extensions: [".js", ".jsx"],
+        extensions: [".js", ".jsx"]
     },
 };
 
@@ -55,10 +55,8 @@ const Server = {
         ],
     },
     resolve: {
-        extensions: [".js", ".jsx"],
+        extensions: [".js", ".jsx"]
     },
 };
-
-
 
 module.exports = [Client, Server];

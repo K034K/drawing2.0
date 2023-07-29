@@ -5,28 +5,43 @@ import AppRoute from "../routes/AppRoute";
 //cookies
 import cookieParser from "cookie-parser";
 
+//import files
+import fs from "fs";
+
 //port and host
 const EXPRESS_HOST = "localhost";
 const EXPRESS_PORT = 3000;
 
 const db = {
     users: [],
-    username2userindex: {
+    username2userindex: {},
+    _load() {
+        
+        const data = fs.existsSync("./db.json") && fs.readFileSync("./db.json");
+        const json = JSON.parse(data || "{}");
+        Object.assign(this, json);
+    },
+    _save() {
+        fs.writeFileSync("./db.json", JSON.stringify(this));
     }
 };
 
 export default class Express {
     run() {
+        db._load();
         this.app = express();
         this.app.use(express.static("public"));
         this.app.use(express.json());
+        
+        // Cookies
+        this.app.use(cookieParser());
 
         // Routes
         //  this.get(IndexRoute);
         this.post(AppRoute);
-
-        // Cookies
-        this.app.use(cookieParser());
+        this.app.get("/test", (req, res) => {
+            res.json({ test: "test" });
+        });
 
         this.app.listen(EXPRESS_PORT, EXPRESS_HOST, () => {
             console.log(`Express listening on ${EXPRESS_HOST}:${EXPRESS_PORT}`);
@@ -50,10 +65,8 @@ export default class Express {
             try {
                 new ClassRoute(req, res, next).onRequest({ db });
             } catch (e) {
-                console.log(e);
                 res.status(500).json({ error: e.message });
             }
         });
-    
     }
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import send from "../lib/send";
+import Square from "./Square";
 
 //it's a form component that will have width and height inputs
 //and a submit button and reset button
@@ -9,31 +10,51 @@ import send from "../lib/send";
 // on submit form will disappear and grid will appear
 //show error if width or height is less than 1 and more than 100 and if it's not a number
 
+//on reload if has cookie username then send request to server to get width and height
+
 //create a form
 const Form = (props) => {
-    const { setWidth, setHeight, setShowForm ,setRestore} = props;
+    const { setWidth, setHeight, setShowForm, setGrid } = props;
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const { width:{value: width}, height:{value: height}, username:{value: username}} = e.target;
-        console.log({ width, height, username });
-        send("/app/set", { width, height, username }).then((res) => { 
-            const { width, height } = res;
+        const {
+            width: { value: width },
+            height: { value: height },
+            username: { value: username },
+        } = e.target;
+        const gridInit = Array(width * height).fill(null).map(() => ({
+            color: "white",
+            x1: 0,
+        }));
+        if (username !== "") {
+            send("/app/set", { width, height, username, gridInit }).then((res) => {
+                const { width, height } = res;
+                setWidth(width);
+                setHeight(height);
+                setGrid(gridInit);
+                setShowForm(false);
+            });
+        }
+        else {
             setWidth(width);
             setHeight(height);
+            setGrid(gridInit);
             setShowForm(false);
-        });
+        }
     };
 
     const handleReset = (e) => {
         e.preventDefault();
         const widthInput = document.getElementById("width");
         const heightInput = document.getElementById("height");
-
+        const usernameInput = document.getElementById("username");
 
         //get window width and height and divide by 40 and make it integer
         widthInput.value = Math.round(window.innerWidth / 40);
         heightInput.value = Math.round(window.innerHeight / 40);
+        usernameInput.value = "anonymous";
 
         document.getElementById("submit").removeAttribute("disabled");
     };
@@ -60,6 +81,27 @@ const Form = (props) => {
             e.target.setCustomValidity("");
             e.target.reportValidity();
             submitButon.removeAttribute("disabled");
+        }
+    };
+
+    //after component is mounted, check if there is a cookie and if there is, send request to server to get width and height
+
+    const handleRestore = (e) => {
+        e.preventDefault();
+        //if there is a cookie, send request to server to get width and height
+        if (document.cookie.includes("username")) {
+            const localUsername = document.cookie
+                .split("; ")
+                .find((row) => row.startsWith("username="))
+                ?.split("=")[1];
+            send("/app/getDimension", {
+                localUsername
+            }).then((res) => {
+                const { width, height } = res;
+                setWidth(width);
+                setHeight(height);
+                setShowForm(false);
+            });
         }
     };
 
@@ -103,7 +145,7 @@ const Form = (props) => {
                         </button>
 
                         <button onClick={handleReset}>Reset</button>
-                        <button onClick={()=>setRestore(true)}>Restore</button>
+                        <button onClick={handleRestore}>Restore</button>
                     </div>
                 </form>
             </div>

@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import ColorPicker from "./components/ColorPicker.jsx";
 import Form from "./components/Form.jsx";
 import CreateGrid from "./components/CreateGrid.jsx";
+import send from "./lib/send.js";
 
 export default function App(props) {
     const [activeColor, setActiveColor] = useState("red");
@@ -24,20 +25,35 @@ export default function App(props) {
     const [height, setHeight] = useState(10);
     const [showForm, setShowForm] = useState(true);
     const [restore, setRestore] = useState(false);
+    const [grid, setGrid] = useState([]);
 
-    //create grid in state for our items  ; save to local storrage width, height and grid
-
-    //on change store
+    //create a grid of squares based on width and height
     useEffect(() => {
-        localStorage.setItem("width", JSON.stringify(width));
-        localStorage.setItem("height", JSON.stringify(height));
-    }, [width, height]);
-
-    useEffect(() => {
+      
+            send("/app/getGrid", {}).then((res) => {
+                //check if grid is defined
+                if (res.grid) {
+                    setGrid(res.grid);
+                    setWidth(res.width);
+                    setHeight(res.height);
+                    setShowForm(false);
+                    console.log("grid set");
+                }
+            });
         
     }, []);
 
+    useEffect(() => {
+        // if no changes to grid for 5 seconds send it to server
+        const timeout = setTimeout(() => {
+            send("/app/setGrid", { grid }).then((res) => {});
+            console.log("grid sent");
+        }, 5000);
+        return () => clearTimeout(timeout);
+    }, [grid]);
+
     const colors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "black", "white"];
+
     //on riht click show color picker and second hide it you can use esc key
     // you can click anywhere to hide it and show it
 
@@ -53,6 +69,7 @@ export default function App(props) {
             setActiveColor={setActiveColor}
             showColorPicker={showColorPicker}
             colorPickerPosition={colorPickerPosition}
+            
         />
     );
     //if you click on the window of colorPicker don't hide it
@@ -78,11 +95,11 @@ export default function App(props) {
     return (
         <div className="app">
             {showForm ? (
-                <Form setWidth={setWidth} setHeight={setHeight} setShowForm={setShowForm} setRestore={setRestore} />
+                <Form setWidth={setWidth} setHeight={setHeight} setShowForm={setShowForm} setGrid={setGrid} />
             ) : (
                 <div className="gridContainer">
                     {colorPicker}
-                    <CreateGrid width={width} height={height} activeColor={activeColor} />
+                    <CreateGrid width={width} activeColor={activeColor} grid={grid} setGrid={setGrid} />
                 </div>
             )}
         </div>

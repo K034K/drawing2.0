@@ -1,12 +1,16 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 
 const Square = (props) => {
-    const {id, activeColor, isDragging} = props;
-    const [color, setColor] = useState("black");
+    const { id, activeColor, isDragging, square, updateGrid } = props;
+    
     //add event listener to the square where if the mouse is down and the mouse is moving change the color of the square
-    const handleMouseMove = (e) => {
+    const handleMouseDown = () => {
+        updateGrid(id,  { ...square, color: activeColor });
+    };
+
+    const handleMouseEnter = () => {
         if (isDragging) {
-            setColor(activeColor);
+            updateGrid(id, { ...square, color: activeColor });
         }
     };
 
@@ -15,9 +19,10 @@ const Square = (props) => {
             id={id}
             className="square"
             style={{
-                backgroundColor: color,
+                backgroundColor: square.color,
             }}
-            onMouseMove={handleMouseMove}
+            onMouseDown={handleMouseDown}
+            onMouseEnter={handleMouseEnter}
         ></div>
     );
 };

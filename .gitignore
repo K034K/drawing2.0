@@ -3,4 +3,4 @@ package-lock.json
 /public/bundle.js
 /public/*.woff
 /public/*.woff2
-```
+/db.json
