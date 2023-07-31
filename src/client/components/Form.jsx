@@ -15,8 +15,8 @@ import Square from "./Square";
 //create a form
 const Form = (props) => {
     const { setWidth, setHeight, setShowForm, setGrid } = props;
-    
 
+    //handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
         const {
@@ -24,20 +24,24 @@ const Form = (props) => {
             height: { value: height },
             username: { value: username },
         } = e.target;
-        const gridInit = Array(width * height).fill(null).map(() => ({
-            color: "white",
-            x1: 0,
-        }));
+        const gridInit = Array(width * height)
+            .fill(null)
+            .map(() => ({
+                color: "transparent",
+                x1: 0,
+            }));
+
+        //if username is not empty send request to server to set username and grid
         if (username !== "") {
             send("/app/set", { width, height, username, gridInit }).then((res) => {
                 const { width, height } = res;
+
                 setWidth(width);
                 setHeight(height);
                 setGrid(gridInit);
                 setShowForm(false);
             });
-        }
-        else {
+        } else {
             setWidth(width);
             setHeight(height);
             setGrid(gridInit);
@@ -45,6 +49,7 @@ const Form = (props) => {
         }
     };
 
+    //handle reset button
     const handleReset = (e) => {
         e.preventDefault();
         const widthInput = document.getElementById("width");
@@ -81,27 +86,6 @@ const Form = (props) => {
             e.target.setCustomValidity("");
             e.target.reportValidity();
             submitButon.removeAttribute("disabled");
-        }
-    };
-
-    //after component is mounted, check if there is a cookie and if there is, send request to server to get width and height
-
-    const handleRestore = (e) => {
-        e.preventDefault();
-        //if there is a cookie, send request to server to get width and height
-        if (document.cookie.includes("username")) {
-            const localUsername = document.cookie
-                .split("; ")
-                .find((row) => row.startsWith("username="))
-                ?.split("=")[1];
-            send("/app/getDimension", {
-                localUsername
-            }).then((res) => {
-                const { width, height } = res;
-                setWidth(width);
-                setHeight(height);
-                setShowForm(false);
-            });
         }
     };
 
@@ -145,7 +129,6 @@ const Form = (props) => {
                         </button>
 
                         <button onClick={handleReset}>Reset</button>
-                        <button onClick={handleRestore}>Restore</button>
                     </div>
                 </form>
             </div>

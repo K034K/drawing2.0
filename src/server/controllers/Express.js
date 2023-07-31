@@ -39,9 +39,7 @@ export default class Express {
         // Routes
         //  this.get(IndexRoute);
         this.post(AppRoute);
-        this.app.get("/test", (req, res) => {
-            res.json({ test: "test" });
-        });
+        this.get(AppRoute);
 
         this.app.listen(EXPRESS_PORT, EXPRESS_HOST, () => {
             console.log(`Express listening on ${EXPRESS_HOST}:${EXPRESS_PORT}`);
@@ -60,13 +58,16 @@ export default class Express {
 
     listen(type, ClassRoute) {
         console.log("listen", type, ClassRoute.route);
-        this.app[type](ClassRoute.route, (req, res, next) => {
-            console.log(req.url);
-            try {
-                new ClassRoute(req, res, next).onRequest({ db });
-            } catch (e) {
-                res.status(500).json({ error: e.message });
-            }
-        });
+        for (const route of ClassRoute.route) {
+            this.app[type](route, (req, res, next) => {
+                console.log(req.url);
+                try {
+                    new ClassRoute(req, res, next).onRequest({ db });
+                } catch (e) {
+                    res.status(500).json({ error: e.message });
+                }
+            });
+        }
+
     }
 }

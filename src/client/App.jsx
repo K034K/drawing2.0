@@ -29,18 +29,16 @@ export default function App(props) {
 
     //create a grid of squares based on width and height
     useEffect(() => {
-      
-            send("/app/getGrid", {}).then((res) => {
-                //check if grid is defined
-                if (res.grid) {
-                    setGrid(res.grid);
-                    setWidth(res.width);
-                    setHeight(res.height);
-                    setShowForm(false);
-                    console.log("grid set");
-                }
-            });
-        
+        send("/app/getGrid", {}).then((res) => {
+            //check if grid is defined
+            if (res.grid) {
+                setGrid(res.grid);
+                setWidth(res.width);
+                setHeight(res.height);
+                setShowForm(false);
+                console.log("grid set");
+            }
+        });
     }, []);
 
     useEffect(() => {
@@ -63,15 +61,16 @@ export default function App(props) {
         setColorPickerPosition({ x: e.clientX, y: e.clientY });
     });
 
+    //color Picker
     const colorPicker = (
         <ColorPicker
             colors={colors}
             setActiveColor={setActiveColor}
             showColorPicker={showColorPicker}
             colorPickerPosition={colorPickerPosition}
-            
         />
     );
+
     //if you click on the window of colorPicker don't hide it
     window.addEventListener("click", (e) => {
         if (e.target.className === "colorPicker window") {
@@ -80,6 +79,7 @@ export default function App(props) {
             setShowColorPicker(false);
         }
     });
+
     if (restore) {
         setWidth(JSON.parse(localStorage.getItem("width")));
         setHeight(JSON.parse(localStorage.getItem("height")));

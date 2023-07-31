@@ -1,79 +1,74 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.square{
-    background-color: darkslategrey;
-    display: grid;
-    width: 40px;
-    aspect-ratio: 1/1;
+.square {
+  background-color: darkslategrey;
+  display: grid;
+  width: 40px;
+  aspect-ratio: 1/1;
 }
 
 /* on hover make lighter than current or deacrease opacity and increase in size slightly it need to be */
-.square:hover{
-    transition: 0.1s;
+.square:hover {
+  transition: 0.1s;
 }
 /* grid elements*/
-.grid{
-display: grid;
-justify-content: center;
-align-items: center;
+.grid {
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 
-.colorPicker{
-    position: absolute;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    width: 90px;
-    height: 90px;
-    grid-template-columns: 1fr 1fr 1fr;
+.colorPicker {
+  position: absolute;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  width: 90px;
+  height: 90px;
+  grid-template-columns: 1fr 1fr 1fr;
 }
-.colorPicker > div{
-    width: 90%;
-    height: 90%;
-    padding: 10%;
-    
-    cursor: pointer;
-}
+.colorPicker > div {
+  width: 90%;
+  height: 90%;
+  padding: 10%;
 
-.form{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: 1fr;
-    padding: 5px;
-    
+  cursor: pointer;
 }
 
-.form >{
-    
-    padding: 5px;
-    font-size: 20px;
-    font-family: 'Roboto Condensed', sans-serif;
-    text-align: center;
-
-}
-.app{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: darkslategrey;
+.form {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr;
+  padding: 5px;
 }
 
-.buttonRow{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: 1fr 1fr;
-    padding-top: 15px;
+.form > {
+  padding: 5px;
+  font-size: 20px;
+  font-family: "Roboto Condensed", sans-serif;
+  text-align: center;
+}
+.app {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: darkslategrey;
 }
 
-
+.buttonRow {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 15px;
+}

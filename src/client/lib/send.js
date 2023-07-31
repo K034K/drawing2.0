@@ -1,3 +1,5 @@
+//sending post request to server
+
 function send(route, body) {
     return fetch(route, {
         method: "POST",

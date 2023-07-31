@@ -11,7 +11,7 @@ window.addEventListener('selectstart', (event) => {
     event.preventDefault()
 })
 
-
+//rendering the app
 const root = createRoot(document.getElementById('root'));
 
 root.render(
