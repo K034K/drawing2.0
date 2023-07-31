@@ -1,6 +1,8 @@
 import BaseRoute from "../classes/BaseRoute";
 import Render from "../controllers/Render";
 
+//import react-router-dom
+
 export default class AppRoute extends BaseRoute {
     static route = ["/app/:action", "/show/:username"];
 
@@ -83,7 +85,6 @@ export default class AppRoute extends BaseRoute {
     //set user's grid on request
     setGridAction() {
         const { grid } = this.req.body;
-        console.log(this.req.cookies);
         const localUsername = this.req.cookies.username;
 
         const userIndex = this.db.username2userindex[localUsername];

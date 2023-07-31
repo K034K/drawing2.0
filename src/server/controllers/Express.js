@@ -1,6 +1,8 @@
 import express from "express";
-//import IndexRoute from "../routes/Index";
+
+//import routes
 import AppRoute from "../routes/AppRoute";
+import AdminRoute from "../routes/AdminRoute";
 
 //cookies
 import cookieParser from "cookie-parser";
@@ -40,6 +42,9 @@ export default class Express {
         //  this.get(IndexRoute);
         this.post(AppRoute);
         this.get(AppRoute);
+
+        this.post(AdminRoute);
+        this.get(AdminRoute);
 
         this.app.listen(EXPRESS_PORT, EXPRESS_HOST, () => {
             console.log(`Express listening on ${EXPRESS_HOST}:${EXPRESS_PORT}`);
