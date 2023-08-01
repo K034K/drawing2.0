@@ -1,15 +1,16 @@
 import BaseRoute from "../classes/BaseRoute";
 
+import AdminRender from "../controllers/AdminRender";
+
 export default class AdminRoute extends BaseRoute {
     static route = ["/admin/:action","/admin"];
 
     on() {
         const { action, username } = this.req.params;
 
-        
 
         if (!action && !username) {
-            this.mOk({ users: this.db.users });
+            this.pageRender();
             return;
         }
 
@@ -25,6 +26,10 @@ export default class AdminRoute extends BaseRoute {
     }
 
     //get all users
+
+    pageRender() {
+        this.res.send(new AdminRender().render(this.db.users));
+    }
 
     getUsersListAction() {
         this.mOk({ users: this.db.users });
