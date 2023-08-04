@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import send from "../lib/send";
-import Square from "./Square";
 
 //it's a form component that will have width and height inputs
 //and a submit button and reset button

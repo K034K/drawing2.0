@@ -1,13 +1,18 @@
+import { Provider } from "react-redux";
 import BaseRoute from "../classes/BaseRoute";
 
 import AdminRender from "../controllers/AdminRender";
 
+import { store } from "../controllers/store";
 export default class AdminRoute extends BaseRoute {
-    static route = ["/admin/:action","/admin"];
+    static route = ["/admin/:action", "/admin"];
+
+
+
+    preloadedState = store.getState();
 
     on() {
         const { action, username } = this.req.params;
-
 
         if (!action && !username) {
             this.pageRender();
@@ -28,9 +33,15 @@ export default class AdminRoute extends BaseRoute {
     //get all users
 
     pageRender() {
-        this.res.send(new AdminRender().render(this.db.users));
+        const html = new AdminRender().render(this.req.url, this.preloadedState);
+        this.res.send(
+            <Provider store={this.store}>
+                {html}
+                
+                </Provider>);
     }
 
+    //get users list
     getUsersListAction() {
         this.mOk({ users: this.db.users });
     }
@@ -59,3 +70,4 @@ export default class AdminRoute extends BaseRoute {
         }
     }
 }
+

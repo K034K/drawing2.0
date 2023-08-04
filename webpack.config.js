@@ -27,6 +27,11 @@ const Client = {
     resolve: {
         extensions: [".js", ".jsx"]
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            __isBrowser__: "true",
+        }),
+    ],
 };
 
 const Server = {
@@ -57,6 +62,12 @@ const Server = {
     resolve: {
         extensions: [".js", ".jsx"]
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            __isBrowser__: "false",
+        }),
+    ],
+
 };
 
 module.exports = [Client, Server];

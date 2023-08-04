@@ -1,8 +1,11 @@
 import express from "express";
 
+
 //import routes
 import AppRoute from "../routes/AppRoute";
 import AdminRoute from "../routes/AdminRoute";
+import {createStaticHandler} from "react-router-dom/server";
+
 
 //cookies
 import cookieParser from "cookie-parser";
@@ -27,6 +30,7 @@ const db = {
         fs.writeFileSync("./db.json", JSON.stringify(this));
     }
 };
+
 
 export default class Express {
     run() {
@@ -54,6 +58,7 @@ export default class Express {
     //get for routes
     get(ClassRoute) {
         this.listen("get", ClassRoute);
+
     }
 
     // post for routes
