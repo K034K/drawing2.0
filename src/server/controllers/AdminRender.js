@@ -5,8 +5,8 @@ import { renderToString } from "react-dom/server";
 import App from "../../client/App";
 
 export default class AdminRender {
-    render(url, preloadedState) {
-        const html = renderToString(<App location={url} />);
+    render(url, store) {
+        const html = renderToString(<App location={url} store={store} />);
         return `<!DOCTYPE html>
         <html lang="en">
             <head>
@@ -14,16 +14,17 @@ export default class AdminRender {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
                 <title>Admin</title>
-                <script>
-          // WARNING: See the following for security issues around embedding JSON in HTML:
-          // https://redux.js.org/usage/server-rendering#security-considerations
-          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, "\\u003c")}
-        </script>
+        
                 <link rel="stylesheet" href="style.css" />
         
+                <script>
+                    window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState()).replace(/</g, "\\u003c")}
+                </script>
+                <script src="bundle.js" defer></script>
             </head>
             <body>
-                <div id="admin">${html}</div>
+                <div id="root">${html}</div>
+                
             </body>
         </html>
         `;

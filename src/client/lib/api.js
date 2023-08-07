@@ -1,6 +1,6 @@
 //sending post request to server
 
-function send(route, body) {
+export default function send(route, body) {
     return fetch(route, {
         method: "POST",
         headers: {
@@ -11,4 +11,10 @@ function send(route, body) {
         .then((r) => r.json());
 }
 
-export default send;
+export function adminGetUsersList() {
+    return send("/admin/getUsersList");
+}
+
+export function adminDeleteUser(username) {
+    return send('/admin/delete', { username });
+}

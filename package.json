@@ -6,8 +6,8 @@
     "scripts": {
         "watch:dev": "npx webpack --config webpack.config.js --mode development --progress --watch",
         "build:prod": "npx webpack --config webpack.config.js --mode production --progress",
-        "serve:dev": "nodemon server.js",
-        "serve:prod": "node server.js"
+        "serve:dev": "nodemon --ignore db.json server.js",
+        "serve:prod": "node --ignore db.json server.js"
     },
     "author": "",
     "license": "ISC",
@@ -28,6 +28,9 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.14.3",
         "@reduxjs/toolkit": "^1.9.5",
         "98.css": "^0.1.20",
         "cookie-parser": "^1.4.6",

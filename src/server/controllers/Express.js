@@ -1,11 +1,9 @@
 import express from "express";
 
-
 //import routes
 import AppRoute from "../routes/AppRoute";
 import AdminRoute from "../routes/AdminRoute";
-import {createStaticHandler} from "react-router-dom/server";
-
+import { createStaticHandler } from "react-router-dom/server";
 
 //cookies
 import cookieParser from "cookie-parser";
@@ -21,16 +19,24 @@ const db = {
     users: [],
     username2userindex: {},
     _load() {
-        
         const data = fs.existsSync("./db.json") && fs.readFileSync("./db.json");
         const json = JSON.parse(data || "{}");
         Object.assign(this, json);
+        // for (let index = 0; index < 10; index++) {
+        //     let number = this.users.push({
+        //         username: Date.now().toString(36)+ Math.random().toString(36).substr(2),
+        //         widht: 2,
+        //         height: 2,
+        //         grid: [],
+        //     });
+        //     this.username2userindex[this.users[number-1].username] = number-1;
+        // }
+
     },
     _save() {
         fs.writeFileSync("./db.json", JSON.stringify(this));
-    }
+    },
 };
-
 
 export default class Express {
     run() {
@@ -38,7 +44,7 @@ export default class Express {
         this.app = express();
         this.app.use(express.static("public"));
         this.app.use(express.json());
-        
+
         // Cookies
         this.app.use(cookieParser());
 
@@ -58,7 +64,6 @@ export default class Express {
     //get for routes
     get(ClassRoute) {
         this.listen("get", ClassRoute);
-
     }
 
     // post for routes
@@ -78,6 +83,5 @@ export default class Express {
                 }
             });
         }
-
     }
 }

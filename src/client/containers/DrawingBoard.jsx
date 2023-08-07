@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 import ColorPicker from "../components/ColorPicker.jsx";
 import Form from "../components/Form.jsx";
 import CreateGrid from "../components/CreateGrid.jsx";
-import send from "../lib/send.js";
+import send from "../lib/api.js";
 
 export default function DrawingBoard(props) {
     const [activeColor, setActiveColor] = useState("red");
@@ -39,7 +39,7 @@ export default function DrawingBoard(props) {
                 console.log("grid set");
             }
         });
-    }, []);
+    }, [showForm]);
 
     useEffect(() => {
         // if no changes to grid for 5 seconds send it to server

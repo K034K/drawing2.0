@@ -4,18 +4,16 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import { StaticRouter } from "react-router-dom/server";
 
-
-
 import DrawingBoard from "../containers/DrawingBoard";
 import Admin from "../containers/Admin";
-import { config } from "webpack";
+
 
 const ROUTES = [
     {
         path: "/",
         Component: DrawingBoard,
         options: {
-            menu: true,
+            menu: false,
         },
     },
     {
