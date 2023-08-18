@@ -4,9 +4,13 @@ import AdminRender from "../controllers/AdminRender";
 
 import getStore from "../../client/store";
 
-import { delUser, setUsers } from "../../client/store/reducers/app";
+import { setUsers } from "../../client/store/reducers/app";
 export default class AdminRoute extends BaseRoute {
     static route = ["/admin/:action", "/admin"];
+
+    static getRoute = ["/admin"];
+    
+    static postRoute = ["/admin/:action"];
 
     on() {
         const { action, username } = this.req.params;

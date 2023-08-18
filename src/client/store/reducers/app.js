@@ -2,11 +2,14 @@ import { createAction, createReducer } from "@reduxjs/toolkit";
 
 export const setUsers = createAction("app/setUsers");
 
-export const delUser = createAction("app/delUser");
+export const setEditUser = createAction("app/setEditUser");
+
+export const delEditUser = createAction("app/delEditUser");
 
 export const appReducer = createReducer(
     {
         users: [],
+        editUser: {},
     },
     (builder) => {
         builder
@@ -14,8 +17,11 @@ export const appReducer = createReducer(
             .addCase(setUsers, (state, action) => {
                 state.users = action.payload;
             })
-            .addCase(delUser, (state, action) => {
-                state.users = state.users.filter((user) => user.username !== action.payload);
+            .addCase(setEditUser, (state, action) => {
+                state.editUser = action.payload;
+            })
+            .addCase(delEditUser, (state, action) => {
+                state.editUser = {};
             });
     }
 );

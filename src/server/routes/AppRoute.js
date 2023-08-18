@@ -4,7 +4,9 @@ import Render from "../controllers/Render";
 //import react-router-dom
 
 export default class AppRoute extends BaseRoute {
-    static route = ["/app/:action", "/show/:username"];
+    
+    static getRoute = ["/show/:username"];
+    static postRoute = ["/app/:action"];
 
     on() {
         const { action, username } = this.req.params;

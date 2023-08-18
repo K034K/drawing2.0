@@ -1,14 +1,16 @@
 //sending post request to server
 
+import axios from "axios";
+
 export default function send(route, body) {
-    return fetch(route, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...body }),
-    })
-        .then((r) => r.json());
+    if (!__isBrowser__) {
+        route = `http://localhost:3000${route}`;
+    }
+    return axios
+        .post(route, {
+            ...body,
+        })
+        .then((r) => r.data);
 }
 
 export function adminGetUsersList() {
@@ -16,5 +18,9 @@ export function adminGetUsersList() {
 }
 
 export function adminDeleteUser(username) {
-    return send('/admin/delete', { username });
+    return send("/admin/delete", { username });
+}
+
+export function adminGetUser(username) {
+    return send("/edit/getUser", { username });
 }

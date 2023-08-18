@@ -6,6 +6,7 @@ import { StaticRouter } from "react-router-dom/server";
 
 import DrawingBoard from "../containers/DrawingBoard";
 import Admin from "../containers/Admin";
+import Edit from "../containers/Edit";
 
 
 const ROUTES = [
@@ -19,6 +20,13 @@ const ROUTES = [
     {
         path: "/admin",
         Component: Admin,
+        options: {
+            menu: false,
+        },
+    },
+    {
+        path: "/edit/:username",
+        Component: Edit,
         options: {
             menu: false,
         },

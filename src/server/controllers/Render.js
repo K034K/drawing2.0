@@ -2,7 +2,7 @@ import React from "react";
 
 import { renderToString } from "react-dom/server";
 
-import Show from "../../client/Show";
+import Show from "../../client/containers/Show";
 
 //server side rendering for user's grid on request
 

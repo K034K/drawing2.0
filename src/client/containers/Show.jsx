@@ -1,6 +1,6 @@
 import React from "react";
 
-import CreateGrid from "./components/CreateGrid";
+import CreateGrid from "../components/CreateGrid";
 
 //show the grid for the user without the ability to edit it
 

@@ -1,5 +1,6 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
 
 import { adminGetUsersList, adminDeleteUser } from "../lib/api";
 
@@ -7,13 +8,15 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { setUsers } from "../store/reducers/app";
 
+import { Table, TableBody, TableCell, TableRow, TableHead, TableContainer, Button, Stack } from "@mui/material";
 
 //Rendering the Admin page
 export default function Admin(props) {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.app.users);
+    let navigate = useNavigate();
 
-    React.useEffect(() => {
+    useEffect(() => {
         load();
     }, []);
 
@@ -39,36 +42,60 @@ export default function Admin(props) {
         });
     }
 
+    function navigateHome() {
+        navigate("/");
+    }
+
+    function navigateEdit(username) {
+        navigate("/edit/" + username);
+    }
+
     console.log("users", users);
     return (
         <div>
             <h1>Admin Page</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Width</th>
-                        <th>Height</th>
-                        <th>Grid</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((item) => (
-                        <tr key={item.username}>
-                            <td>{item.username}</td>
-                            <td>{item.width}</td>
-                            <td>{item.height}</td>
-                            <td>{item.grid.length}</td>
-                            <td>
-                                <button onClick={()=>delUser(item.username)}>Delete {item.username}</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <button onClick={() => this.props.history.push("/")}>Back</button>
-            <button onClick={load}>Refresh</button>
+            <TableContainer>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Username</TableCell>
+                            <TableCell align="right">Width</TableCell>
+                            <TableCell align="right">Height</TableCell>
+                            <TableCell align="right">Grid</TableCell>
+                            <TableCell align="right">Edit</TableCell>
+                            <TableCell align="right">Delete</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {users.map((item) => (
+                            <TableRow key={item.username}>
+                                <TableCell component="th" scope="row">
+                                    {item.username}
+                                </TableCell>
+                                <TableCell align="right">{item.width}</TableCell>
+                                <TableCell align="right">{item.height}</TableCell>
+                                <TableCell align="right">{item.grid.length}</TableCell>
+                                <TableCell align="right">
+                                    {/* on click go to /edit/username */}
+                                    <Button onClick={() => navigateEdit(item.username)}>Edit</Button>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Button onClick={() => delUser(item.username)}>Delete {item.username}</Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <Stack direction="row" spacing={2}>
+                <Button variant="contained" onClick={() => navigateHome()}>
+                    Back
+                </Button>
+                <Button variant="contained" onClick={load}>
+                    Refresh
+                </Button>
+            </Stack>
         </div>
     );
 }
