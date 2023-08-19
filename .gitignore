@@ -5,3 +5,4 @@ server.js
 /public/*.woff
 /public/*.woff2
 /db.json
+/server.js
