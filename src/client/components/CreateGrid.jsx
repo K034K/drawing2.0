@@ -13,7 +13,7 @@ const CreateGrid = (props) => {
 
     const handleMouseUp = (e) => {
         setIsDragging(false);
-    };
+    };  
 
     const updateGrid = (id, value) => {
         const newGrid = [...grid]; // Create a new array with the same values as the original grid
@@ -24,6 +24,7 @@ const CreateGrid = (props) => {
     const gridStyle = {
         gridTemplateColumns: `repeat(${width}, 1fr)`,
     };
+
     return (
         <div className="grid" style={gridStyle} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
             {grid.map((square, i) => (

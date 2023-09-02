@@ -19,13 +19,16 @@ import send from "../lib/api.js";
 
 export default function DrawingBoard(props) {
     const [activeColor, setActiveColor] = useState("red");
-    const [showColorPicker, setShowColorPicker] = useState(false);
-    const [colorPickerPosition, setColorPickerPosition] = useState({ x: 0, y: 0 });
+    
     const [width, setWidth] = useState(10);
     const [height, setHeight] = useState(10);
     const [showForm, setShowForm] = useState(true);
     const [restore, setRestore] = useState(false);
     const [grid, setGrid] = useState([]);
+
+    /**
+     * @Todo revrite use effect to use redux
+     */
 
     //create a grid of squares based on width and height
     useEffect(() => {
@@ -55,30 +58,16 @@ export default function DrawingBoard(props) {
     //on riht click show color picker and second hide it you can use esc key
     // you can click anywhere to hide it and show it
 
-    window.addEventListener("contextmenu", (e) => {
-        e.preventDefault();
-        setShowColorPicker(!showColorPicker);
-        setColorPickerPosition({ x: e.clientX, y: e.clientY });
-    });
+  
 
     //color Picker
     const colorPicker = (
         <ColorPicker
             colors={colors}
             setActiveColor={setActiveColor}
-            showColorPicker={showColorPicker}
-            colorPickerPosition={colorPickerPosition}
         />
     );
 
-    //if you click on the window of colorPicker don't hide it
-    window.addEventListener("click", (e) => {
-        if (e.target.className === "colorPicker window") {
-            setShowColorPicker(true);
-        } else {
-            setShowColorPicker(false);
-        }
-    });
 
     if (restore) {
         setWidth(JSON.parse(localStorage.getItem("width")));
@@ -86,11 +75,6 @@ export default function DrawingBoard(props) {
         setShowForm(false);
     }
 
-    window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            setShowColorPicker(false);
-        }
-    });
 
     return (
         <div className="app">

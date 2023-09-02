@@ -11,19 +11,10 @@ import { setEditUser, setUsers } from "../../client/store/reducers/app";
  * @extends BaseRoute
  */
 export default class EditRoute extends BaseRoute {
-    /**
-     * The route for getting the edit page.
-     * @type {string[]}
-     * @static
-     */
-    static getRoute = ["/edit/:username"];
-
-    /**
-     * The route for posting an edit action.
-     * @type {string[]}
-     * @static
-     */
-    static postRoute = ["/edit/:action"];
+    static Routes = [
+        { type: "get", path: "/edit/:username" },
+        { type: "post", path: "/edit/:action" },
+    ];
 
     /**
      * Handles the request for the edit route.
@@ -69,11 +60,6 @@ export default class EditRoute extends BaseRoute {
     }
 
     /**
-     * Updates a user.
-     */
-    updateAction() {}
-
-    /**
      * Gets a user.
      */
     getUserAction() {
@@ -89,5 +75,28 @@ export default class EditRoute extends BaseRoute {
         const user = this.db.users[index];
 
         this.mOk({ user });
+    }
+
+    /**
+     * Save a user in the database.
+     */
+    saveUserAction() {
+        const { username, grid } = this.req.body;
+       
+        console.log("username: ", username);
+        console.log("grid: ", grid);
+
+        const index = this.db.username2userindex[username];
+
+        if (index === undefined) {
+            this.mNotOk({ error: "no user" });
+            return;
+        }
+        
+        this.db.users[index].grid = grid;
+
+        this.db._save();
+
+        this.mOk();
     }
 }

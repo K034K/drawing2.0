@@ -24,3 +24,7 @@ export function adminDeleteUser(username) {
 export function adminGetUser(username) {
     return send("/edit/getUser", { username });
 }
+
+export function editSaveUser(username, grid) {
+    return send("/edit/saveUser", { username, grid });
+}

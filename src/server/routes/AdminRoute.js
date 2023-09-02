@@ -6,11 +6,7 @@ import getStore from "../../client/store";
 
 import { setUsers } from "../../client/store/reducers/app";
 export default class AdminRoute extends BaseRoute {
-    static route = ["/admin/:action", "/admin"];
-
-    static getRoute = ["/admin"];
-    
-    static postRoute = ["/admin/:action"];
+    static Routes = [{type: "get", path: "/admin"}, {type: "post", path: "/admin/:action"}];
 
     on() {
         const { action, username } = this.req.params;

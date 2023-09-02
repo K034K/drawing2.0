@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -6,26 +6,35 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { delEditUser, setEditUser } from "../store/reducers/app";
 
-import { adminGetUser } from "../lib/api";
-import { Button } from "@mui/material";
+import { Button, gridClasses } from "@mui/material";
+
+import { adminGetUser, editSaveUser } from "../lib/api";
+
 import CreateGrid from "../components/CreateGrid";
+
 import ColorPicker from "../components/ColorPicker";
 
+/**
+ * Edit component for editing user information
+ * @param {Object} props - Component props
+ * @returns {JSX.Element} - Rendered component
+ */
 export default function Edit(props) {
     const params = useParams();
 
     const dispatch = useDispatch();
     const user = useSelector((state) => state.app.editUser);
 
+    const colors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "black", "white"];
+
     const [activeColor, setActiveColor] = useState("red");
-    const [showColorPicker, setShowColorPicker] = useState(false);
-    const [colorPickerPosition, setColorPickerPosition] = useState({ x: 0, y: 0 });
+    const [grid, setGrid] = useState(user.grid || []);
 
     const navigate = useNavigate();
 
     console.log("params: ", params);
 
-    console.log(user);
+    console.log(user); 
 
     useEffect(() => {
         load();
@@ -35,6 +44,16 @@ export default function Edit(props) {
         };
     }, [params.username]);
 
+    // useEffect(() => {
+    //     waitForGrid().then((gridLoca) => {
+    //         setGrid(user.grid);
+    //     });
+    // }, [user]);
+
+    /**
+     * Loads user information from the server
+     * @returns {Promise<void>} - Promise that resolves when user information is loaded
+     */
     function load() {
         return adminGetUser(params.username).then((res) => {
             if (!res.ok) {
@@ -42,40 +61,50 @@ export default function Edit(props) {
                 return;
             }
             dispatch(setEditUser(res.user));
+            setGrid(res.user.grid)
+        }).then(() => {
+            ; 
         });
     }
 
+    /**
+     * Navigates to the home page
+     */
     function navigateHome() {
-        props.navigate("/");
+        navigate("/");
     }
 
+    /**
+     * Navigates to the admin page
+     */
     function navigateAdmin() {
-        props.navigate("/admin");
+        navigate("/admin");
     }
 
+    /**
+     * Saves user information to the server
+     */
     function saveUser() {
-        console.log("saveUser");
+        editSaveUser(user.username, grid).then((res) => {
+            if (!res.ok) {
+                console.warn("Error", res);
+                return;
+            }
+            navigateAdmin();
+        });
     }
 
-    window.addEventListener("click", (e) => {
-        if (e.target.className === "colorPicker window") {
-            setShowColorPicker(true);
-        } else {
-            setShowColorPicker(false);
-        }
-    });
+    function waitForGrid() {
+        return new Promise((resolve) => {
+            const intervalId = setInterval(() => {
+                if (grid && user.width) {
+                    clearInterval(intervalId);
+                    resolve(gridClasses);
+                }
+            }, 100);
+        });
+    }
 
-    window.addEventListener("contextmenu", (e) => {
-        e.preventDefault();
-        setShowColorPicker(!showColorPicker);
-        setColorPickerPosition({ x: e.clientX, y: e.clientY });
-    });
-
-    window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            setShowColorPicker(false);
-        }
-    });
 
     return (
         <div>
@@ -93,13 +122,8 @@ export default function Edit(props) {
                 </Button>
             </header>
             <main>
-                <ColorPicker
-                    colors={colors}
-                    setActiveColor={setActiveColor}
-                    showColorPicker={showColorPicker}
-                    colorPickerPosition={colorPickerPosition}
-                />
-                <CreateGrid width={user.width} activeColor={activeColor} grid={grid} setGrid={user.grid} />
+                <ColorPicker colors={colors} setActiveColor={setActiveColor} />
+                <CreateGrid width={user.width} activeColor={activeColor} grid={grid} setGrid={setGrid} />;
             </main>
         </div>
     );

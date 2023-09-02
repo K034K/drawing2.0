@@ -62,6 +62,7 @@ export default function Admin(props) {
                             <TableCell align="right">Width</TableCell>
                             <TableCell align="right">Height</TableCell>
                             <TableCell align="right">Grid</TableCell>
+                            <TableCell align="right">Comment</TableCell>
                             <TableCell align="right">Edit</TableCell>
                             <TableCell align="right">Delete</TableCell>
                         </TableRow>
@@ -75,6 +76,9 @@ export default function Admin(props) {
                                 <TableCell align="right">{item.width}</TableCell>
                                 <TableCell align="right">{item.height}</TableCell>
                                 <TableCell align="right">{item.grid.length}</TableCell>
+                                <TableCell align="right">
+                                    <Button onClick={()=> writeComment(item.username)}></Button>
+                                </TableCell>
                                 <TableCell align="right">
                                     {/* on click go to /edit/username */}
                                     <Button onClick={() => navigateEdit(item.username)}>Edit</Button>

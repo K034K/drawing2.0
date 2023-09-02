@@ -1,6 +1,8 @@
 // Base Route Class? any other route should extend this class
 
 export default class BaseRoute {
+
+    
     req = null;
     res = null;
     next = null;
